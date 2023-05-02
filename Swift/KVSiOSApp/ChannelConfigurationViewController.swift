@@ -184,7 +184,7 @@ class ChannelConfigurationViewController: UIViewController, UITextFieldDelegate 
                 return
             } else {
                 self.channelARN = task.result?.channelARN
-                print("Channel ARN : ", task.result?.channelARN)
+                print("Channel ARN : ", self.channelARN!)
             }
         }).waitUntilFinished()
         if (self.channelARN == nil) {
@@ -264,10 +264,12 @@ class ChannelConfigurationViewController: UIViewController, UITextFieldDelegate 
                 switch endpoint.protocols {
                 case .https:
                     httpResourceEndpointItem = endpoint
+                case .webrtc:
+                    print("Error: N/A ", endpoint.protocols, " for endpoint" + endpoint.description())
                 case .wss:
                     wssResourceEndpointItem = endpoint
                 case .unknown:
-                    print("Error: Unknown endpoint protocol ", endpoint.protocols, "for endpoint" + endpoint.description())
+                    print("Error: Unknown endpoint protocol ", endpoint.protocols, " for endpoint" + endpoint.description())
                 }
             }
             AWSMobileClient.default().getAWSCredentials { credentials, _ in
